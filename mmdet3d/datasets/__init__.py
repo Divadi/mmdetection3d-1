@@ -1,4 +1,5 @@
 from mmdet.datasets.builder import build_dataloader
+from .aiodrive_dataset import AIODriveDataset
 from .builder import DATASETS, build_dataset
 from .custom_3d import Custom3DDataset
 from .custom_3d_seg import Custom3DSegDataset
@@ -20,7 +21,7 @@ from .utils import get_loading_pipeline
 from .waymo_dataset import WaymoDataset
 
 __all__ = [
-    'KittiDataset', 'KittiMonoDataset', 'GroupSampler',
+    'AIODriveDataset', 'KittiDataset', 'KittiMonoDataset', 'GroupSampler',
     'DistributedGroupSampler', 'build_dataloader', 'RepeatFactorDataset',
     'DATASETS', 'build_dataset', 'CocoDataset', 'NuScenesDataset',
     'NuScenesMonoDataset', 'LyftDataset', 'ObjectSample', 'RandomFlip3D',

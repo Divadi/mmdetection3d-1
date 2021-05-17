@@ -214,6 +214,33 @@ def create_groundtruth_database(dataset_class_name,
                     file_client_args=file_client_args)
             ])
 
+    elif dataset_class_name == "AIODriveDataset":
+        file_client_args = dict(backend='disk')
+        dataset_cfg.update( # TODO: Add a more nuanced way of generating database for other types of point clouds
+            test_mode=False,
+            split='trainval',
+            # pts_prefix='lidar_velodyne',
+            pts_prefix='lidar_denselv1',
+            modality=dict(
+                use_lidar=True,
+                use_depth=False,
+                use_lidar_intensity=True,
+                use_camera=with_mask,
+            ),
+            pipeline=[
+                dict(
+                    type='LoadPointsFromFile',
+                    coord_type='LIDAR',
+                    load_dim=4,
+                    use_dim=4,
+                    file_client_args=file_client_args),
+                dict(
+                    type='LoadAnnotations3D',
+                    with_bbox_3d=True,
+                    with_label_3d=True,
+                    file_client_args=file_client_args)
+            ])
+
     dataset = build_dataset(dataset_cfg)
 
     if database_save_path is None:

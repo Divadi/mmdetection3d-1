@@ -1,0 +1,19 @@
+4/18
+    Day 
+        0) PointPillars baseline, 30x2 epochs on 1/5 data. Trained with batch size 3, FP16
+        1) Fine-tune 1) 6x1 epochs on all data, start with 10x lower lr. Trained with batch size 3, FP16
+4/19
+    Overnight
+        0) Run on KITTI, with voxel size 0.32 (similar to aiodrive run above)
+4/21
+    Overnight
+        0) Same setup as 4/18 0), but without FP16
+            Goal is to compare performance and see if FP16 hurt.
+        1) Reduced pillar size to 0.16, 2D head is stride 2, decreased # pts in voxels
+4/22
+    Overnight
+        0) SECOND, FP16
+        1) 4/18 0), but with denselv1. reduced # points in each voxel to 64
+4/25
+    Overnight
+        0) 4/18 Day 0), Cars only

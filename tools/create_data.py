@@ -2,6 +2,7 @@ import argparse
 from os import path as osp
 
 from tools.data_converter import indoor_converter as indoor
+from tools.data_converter import aiodrive_converter as aiodrive
 from tools.data_converter import kitti_converter as kitti
 from tools.data_converter import lyft_converter as lyft_converter
 from tools.data_converter import nuscenes_converter as nuscenes_converter
@@ -190,6 +191,26 @@ def waymo_data_prep(root_path,
         relative_path=False,
         with_mask=False)
 
+def aiodrive_data_prep(root_path, info_prefix, out_dir):
+    """Prepare data related to AIODrive dataset.
+
+    Args:
+        root_path (str): Path of dataset root.
+        info_prefix (str): The prefix of info filenames.
+        version (str): Dataset version.
+        out_dir (str): Output directory of the groundtruth database info.
+    """
+    # aiodrive.create_aiodrive_info_file(root_path, info_prefix, out_dir)
+    create_groundtruth_database(
+        'AIODriveDataset',
+        root_path,
+        info_prefix,
+        # f'{out_dir}/{info_prefix}_infos_train.pkl',
+        f'{out_dir}/aiodrive_velodyne_infos_train.pkl', # TODO: Acutally, the info files are shared between different point types.
+        database_save_path=osp.join(out_dir, f'{info_prefix}_gt_database'),
+        db_info_save_path=osp.join(out_dir, f'{info_prefix}_dbinfos_train.pkl'),
+        relative_path=False,
+        with_mask=False)
 
 parser = argparse.ArgumentParser(description='Data converter arg parser')
 parser.add_argument('dataset', metavar='kitti', help='name of the dataset')
@@ -279,6 +300,11 @@ if __name__ == '__main__':
             out_dir=args.out_dir,
             workers=args.workers,
             max_sweeps=args.max_sweeps)
+    if args.dataset == 'aiodrive':
+        aiodrive_data_prep(
+            root_path=args.root_path,
+            info_prefix=args.extra_tag,
+            out_dir=args.out_dir)
     elif args.dataset == 'scannet':
         scannet_data_prep(
             root_path=args.root_path,
